@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom"; // Updated for React Router v6
 import LoaderButton from "../components/LoaderButton";
 import { useAppContext } from "../libs/contextLib";

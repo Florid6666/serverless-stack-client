@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import { onError } from "../libs/errorLib";
 import { API } from "aws-amplify";
-import { s3Upload } from "../libs/awsLib";
 import config from "../config";
 import { s3Upload } from "../libs/awsLib"; // Ensure this is imported correctly
 import "./NewNote.css";
