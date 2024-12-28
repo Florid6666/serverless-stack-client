@@ -12,10 +12,7 @@ function App() {
   const history = useHistory();
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  useEffect(() => {
-    onLoad();
-  }, []);
-    
+
   async function onLoad() {
     try {
       await Auth.currentSession();
@@ -33,6 +30,9 @@ function App() {
     await Auth.signOut();
     userHasAuthenticated(false);
   }
+  useEffect(() => {
+    onLoad();
+  }, []);
   return (
     !isAuthenticating && (
       <div className="App container py-3">

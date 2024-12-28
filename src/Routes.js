@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 import NotFound from "./containers/NotFound";
 import NewNote from "./containers/NewNote";
 import Login from "./containers/Login";
-import Settings from "./containers/Settings";
 import Notes from "./containers/Notes";
 import Signup from "./containers/Signup";
 import Home from "./containers/Home";
@@ -25,9 +24,6 @@ export default function Routes() {
       </Route>
       <Route exact path="/notes/:id">
         <Notes />
-      </Route>
-      <Route exact path="/settings">
-       <Settings />
       </Route>
       {/* Finally, catch all unmatched routes */}
       <Route>

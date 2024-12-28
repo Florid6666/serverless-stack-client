@@ -82,6 +82,13 @@ export default function Notes() {
   function deleteNote() {
     return API.del("notes", `/notes/${id}`);
   }
+  function validateForm() {
+    return content.length > 0;
+ }
+
+  function handleFileChange(event) {
+   file.current = event.target.files[0];
+  }
 
   async function handleDelete(event) {
     event.preventDefault();
@@ -124,7 +131,7 @@ export default function Notes() {
                   rel="noopener noreferrer"
                   href={note.attachmentURL}
                 >
-                  {formatFilename(note.attachment)}
+                  {/* {formatFilename(note.attachment)} */}
                 </a>
               </p>
             )}
