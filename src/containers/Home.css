@@ -6,67 +6,38 @@
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
 }
-/* Notebook and Pen Animation */
-.notebook-container {
-    position: fixed;
-    top: 20px;
-    left: -300px; /* Start off-screen */
+/* Funky Background Design */
+.Home {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #fbc2eb);
+    background-size: 300% 300%;
+    animation: gradientShift 10s ease infinite;
+    min-height: 100vh; /* Ensure full-page coverage */
     display: flex;
     align-items: center;
-    animation: slideIn 2s ease-out forwards;
+    justify-content: center;
+    overflow-x: hidden;
 }
 
-.notebook {
-    position: relative;
-    width: 200px;
-    height: 250px;
-    background: linear-gradient(white, #f8f8f8);
-    border: 2px solid #d9d9d9;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.notebook::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 2px;
-    height: 100%;
-    background: #ccc;
-    transform: translateX(-50%);
-}
-
-.pen {
-    width: 40px;
-    height: 150px;
-    background: linear-gradient(to bottom, #222, #555);
-    border-radius: 10px;
-    margin-left: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.pen::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 10px;
-    height: 30px;
-    background: linear-gradient(to bottom, #444, #222);
-    border-radius: 50%;
-    transform: translateX(-50%);
-}
-
-@keyframes slideIn {
+@keyframes gradientShift {
     0% {
-        left: -300px;
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
     }
     100% {
-        left: 20px;
+        background-position: 0% 50%;
     }
 }
 
+/* Optional: Style for the main content to stand out */
+.lander {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    text-align: center;
+    margin: 20px;
+}
 
-    
