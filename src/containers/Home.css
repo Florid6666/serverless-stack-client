@@ -6,6 +6,16 @@
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
 }
+/* Notebook and Pen Animation */
+.notebook-container {
+    position: fixed;
+    top: 20px;
+    left: -300px; /* Start off-screen */
+    display: flex;
+    align-items: center;
+    animation: slideIn 2s ease-out forwards;
+}
+
 .notebook {
     position: relative;
     width: 200px;
@@ -14,9 +24,7 @@
     border: 2px solid #d9d9d9;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
     overflow: hidden;
-    animation: openClose 3s infinite ease-in-out;
 }
 
 .notebook::before {
@@ -30,13 +38,35 @@
     transform: translateX(-50%);
 }
 
-@keyframes openClose {
-    0%, 100% {
-        transform: rotateY(0);
+.pen {
+    width: 40px;
+    height: 150px;
+    background: linear-gradient(to bottom, #222, #555);
+    border-radius: 10px;
+    margin-left: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.pen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(to bottom, #444, #222);
+    border-radius: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes slideIn {
+    0% {
+        left: -300px;
     }
-    50% {
-        transform: rotateY(-15deg);
+    100% {
+        left: 20px;
     }
 }
+
 
     
