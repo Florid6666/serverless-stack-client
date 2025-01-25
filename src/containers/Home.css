@@ -43,7 +43,7 @@
 }
 
 .actions button:hover {
-    background-color: #ff7e5f;
+    background-color: rgb(67, 246, 183);
     transform: scale(1.05);
 }
 
