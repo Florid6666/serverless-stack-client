@@ -18,9 +18,13 @@ export default function Notes() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    async function loadNote() {
+    function loadNote() {
+      return API.get("notes", `/notes/${id}`);
+    }
+
+    async function onLoad() {
       try {
-        const note = await API.get("notes", `/notes/${id}`);
+        const note = await loadNote();
         const { content, attachment } = note;
 
         if (attachment) {
@@ -34,7 +38,7 @@ export default function Notes() {
       }
     }
 
-    loadNote();
+    onLoad();
   }, [id]);
 
   function saveNote(note) {
@@ -44,6 +48,7 @@ export default function Notes() {
   }
 
   async function handleSubmit(event) {
+    let attachment;
     event.preventDefault();
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
@@ -56,11 +61,13 @@ export default function Notes() {
     setIsLoading(true);
 
     try {
-      const attachment = file.current ? await s3Upload(file.current) : note.attachment;
+      if (file.current) {
+        attachment = await s3Upload(file.current);
+      }
 
       await saveNote({
         content,
-        attachment,
+        attachment: attachment || note.attachment,
       });
 
       history.push("/");
@@ -111,10 +118,8 @@ export default function Notes() {
               as="textarea"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your note here..."
             />
           </Form.Group>
-
           <Form.Group controlId="file">
             <Form.Label>Attachment</Form.Label>
             {note.attachment && (
@@ -124,24 +129,21 @@ export default function Notes() {
                   rel="noopener noreferrer"
                   href={note.attachmentURL}
                 >
-                  View attachment
+                  {/* {formatFilename(note.attachment)} */}
                 </a>
               </p>
             )}
             <Form.Control onChange={handleFileChange} type="file" />
           </Form.Group>
-
           <LoaderButton
             block
             size="lg"
             type="submit"
-            variant="primary"
             isLoading={isLoading}
             disabled={!validateForm()}
           >
             Save
           </LoaderButton>
-
           <LoaderButton
             block
             size="lg"
@@ -156,3 +158,4 @@ export default function Notes() {
     </div>
   );
 }
+
