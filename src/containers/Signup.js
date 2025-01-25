@@ -7,6 +7,7 @@ import { useAppContext } from "../libs/contextLib";
 import { useFormFields } from "../libs/hooksLib";
 import { onError } from "../libs/errorLib";
 import "./Signup.css";
+
 export default function Signup() {
 
     const [fields, handleFieldChange] = useFormFields({
@@ -20,7 +21,6 @@ export default function Signup() {
     const [newUser, setNewUser] = useState(null);
     const { userHasAuthenticated } = useAppContext();
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
 
     function validateForm() {
         return (
@@ -37,17 +37,15 @@ export default function Signup() {
     async function handleSubmit(event) {
         event.preventDefault();
         setIsLoading(true);
-        setErrorMessage("");
         try {
             const newUser = await Auth.signUp({
                 username: fields.email,
                 password: fields.password,
             });
+            setIsLoading(false);
             setNewUser(newUser);
         } catch (e) {
-            setErrorMessage(e.message);
             onError(e);
-        } finally {
             setIsLoading(false);
         }
     }
@@ -55,19 +53,16 @@ export default function Signup() {
     async function handleConfirmationSubmit(event) {
         event.preventDefault();
         setIsLoading(true);
-        setErrorMessage("");
         try {
             await Auth.confirmSignUp(fields.email, fields.confirmationCode);
             await Auth.signIn(fields.email, fields.password);
             userHasAuthenticated(true);
             history.push("/");
         } catch (e) {
-            setErrorMessage(e.message);
             onError(e);
-          } finally {
             setIsLoading(false);
-          }
         }
+    }
 
 
 
@@ -81,11 +76,7 @@ export default function Signup() {
                         type="tel"
                         onChange={handleFieldChange}
                         value={fields.confirmationCode}
-                        isInvalid={!!errorMessage}
                     />
-                    <Form.Control.Feedback type="invalid">
-                       {errorMessage}
-                    </Form.Control.Feedback>
                     <Form.Text muted>Please check your email for the code.</Form.Text>
                 </Form.Group>
                 <LoaderButton
@@ -111,11 +102,7 @@ export default function Signup() {
                         type="email"
                         value={fields.email}
                         onChange={handleFieldChange}
-                        isInvalid={!!errorMessage}
                     />
-                    <Form.Control.Feedback type="invalid">
-                      {errorMessage}
-                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group controlId="password" size="lg">
                     <Form.Label>Password</Form.Label>
