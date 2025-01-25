@@ -18,13 +18,9 @@ export default function Notes() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    function loadNote() {
-      return API.get("notes", `/notes/${id}`);
-    }
-
-    async function onLoad() {
+    async function loadNote() {
       try {
-        const note = await loadNote();
+        const note = await API.get("notes", `/notes/${id}`);
         const { content, attachment } = note;
 
         if (attachment) {
@@ -38,7 +34,7 @@ export default function Notes() {
       }
     }
 
-    onLoad();
+    loadNote();
   }, [id]);
 
   function saveNote(note) {
@@ -48,14 +44,11 @@ export default function Notes() {
   }
 
   async function handleSubmit(event) {
-    let attachment;
     event.preventDefault();
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${
-          config.MAX_ATTACHMENT_SIZE / 1000000
-        } MB.`
+        `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE / 1000000} MB.`
       );
       return;
     }
@@ -63,18 +56,17 @@ export default function Notes() {
     setIsLoading(true);
 
     try {
-      if (file.current) {
-        attachment = await s3Upload(file.current);
-      }
+      const attachment = file.current ? await s3Upload(file.current) : note.attachment;
 
       await saveNote({
         content,
-        attachment: attachment || note.attachment,
+        attachment,
       });
 
       history.push("/");
     } catch (e) {
       onError(e);
+    } finally {
       setIsLoading(false);
     }
   }
@@ -82,21 +74,11 @@ export default function Notes() {
   function deleteNote() {
     return API.del("notes", `/notes/${id}`);
   }
-  function validateForm() {
-    return content.length > 0;
- }
-
-  function handleFileChange(event) {
-   file.current = event.target.files[0];
-  }
 
   async function handleDelete(event) {
     event.preventDefault();
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this note?"
-    );
 
-    if (!confirmed) {
+    if (!window.confirm("Are you sure you want to delete this note?")) {
       return;
     }
 
@@ -107,8 +89,17 @@ export default function Notes() {
       history.push("/");
     } catch (e) {
       onError(e);
+    } finally {
       setIsDeleting(false);
     }
+  }
+
+  function validateForm() {
+    return content.length > 0;
+  }
+
+  function handleFileChange(event) {
+    file.current = event.target.files[0];
   }
 
   return (
@@ -120,8 +111,10 @@ export default function Notes() {
               as="textarea"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              placeholder="Write your note here..."
             />
           </Form.Group>
+
           <Form.Group controlId="file">
             <Form.Label>Attachment</Form.Label>
             {note.attachment && (
@@ -131,21 +124,24 @@ export default function Notes() {
                   rel="noopener noreferrer"
                   href={note.attachmentURL}
                 >
-                  {/* {formatFilename(note.attachment)} */}
+                  View attachment
                 </a>
               </p>
             )}
             <Form.Control onChange={handleFileChange} type="file" />
           </Form.Group>
+
           <LoaderButton
             block
             size="lg"
             type="submit"
+            variant="primary"
             isLoading={isLoading}
             disabled={!validateForm()}
           >
             Save
           </LoaderButton>
+
           <LoaderButton
             block
             size="lg"
