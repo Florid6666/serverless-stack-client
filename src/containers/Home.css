@@ -6,3 +6,45 @@
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
 }
+.Home .lander {
+    padding: 80px 0;
+    text-align: center;
+    background: linear-gradient(to bottom, #ff7e5f, #feb47b); /* Gradient background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Home .lander:hover {
+    transform: scale(1.02); /* Slight zoom effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.Home .lander h1 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    color: #ffffff; /* White text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for depth */
+    animation: fadeIn 2s ease-in-out; /* Fade-in effect */
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.actions button {
+    transition: background-color 0.3s, transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.actions button:hover {
+    background-color: #ff7e5f;
+    transform: scale(1.05);
+}
+
+
