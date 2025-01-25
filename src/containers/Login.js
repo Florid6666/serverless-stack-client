@@ -16,18 +16,21 @@ export default function Login() {
     email: "",
     password: ""
   });
+  const [error, setError] = useState("");
   function validateForm() {
     return fields.email.length > 0 && fields.password.length > 0;
   }
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    setError("");
     try {
       await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
       history.push("/");
     } catch (e) {
       onError(e);
+      setError("Invalid email or password. Please try again.");
       setIsLoading(false);
     }
   }
@@ -41,6 +44,7 @@ export default function Login() {
             type="email"
             value={fields.email}
             onChange={handleFieldChange}
+            className={error && fields.email.length === 0 ? "error-input" : ""}
           />
         </Form.Group>
         <Form.Group size="lg" controlId="password">
@@ -49,8 +53,10 @@ export default function Login() {
             type="password"
             value={fields.password}
             onChange={handleFieldChange}
+            className={error && fields.password.length === 0 ? "error-input" : ""}
           />
         </Form.Group>
+        {error && <div className="error-message">{error}</div>}
         <LoaderButton
           block
           size="lg"
