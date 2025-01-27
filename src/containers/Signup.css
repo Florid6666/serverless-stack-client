@@ -1,11 +1,112 @@
 @media all and (min-width: 480px) {
-    .Signup {
+  .Signup {
       padding: 60px 0;
-    }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+  }
 
-    .Signup form {
+  .Signup form {
       margin: 0 auto;
       max-width: 320px;
-    }
+      padding: 30px 20px;
+      background: white; /* Card-like form background */
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
 
+  .Signup form:hover {
+      transform: scale(1.02); /* Slight zoom on hover */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+  }
+
+  .Signup form input[type="email"],
+  .Signup form input[type="password"],
+  .Signup form input[type="text"],
+  .Signup form button {
+      width: 100%;
+      padding: 10px 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+  }
+
+  .Signup form input:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(37, 117, 252, 0.6); /* Glow effect */
+      border: 1px solid #2575fc; /* Highlighted border */
+  }
+
+  .error-input {
+      border-color: #ff4d4f;
+      box-shadow: 0 0 6px rgba(255, 77, 79, 0.5);
+      animation: shake 0.3s ease;
+  }
+
+  .error-message {
+      color: #ff4d4f;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      text-align: center;
+  }
+
+  @keyframes shake {
+      0%, 100% {
+          transform: translateX(0);
+      }
+      20%, 60% {
+          transform: translateX(-5px);
+      }
+      40%, 80% {
+          transform: translateX(5px);
+      }
+  }
+
+  .Signup form button {
+      background: linear-gradient(to right, #6a11cb, #2575fc); /* Vibrant button */
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+  }
+
+  .Signup form button:hover {
+      background: linear-gradient(to right, #2575fc, #6a11cb);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.6); /* Button hover shadow */
+  }
+
+  .Signup form button:active {
+      transform: translateY(1px); /* Click effect */
+      box-shadow: 0 2px 6px rgba(37, 117, 252, 0.4);
+  }
+
+  .LoaderButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 15px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      font-weight: bold;
+  }
+
+  .LoaderButton:hover {
+      background: linear-gradient(to right, #2575fc, #6a11cb);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 117, 252, 0.6);
+  }
+
+  .LoaderButton:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+  }
 }

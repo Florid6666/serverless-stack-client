@@ -21,6 +21,7 @@ export default function Signup() {
     const [newUser, setNewUser] = useState(null);
     const { userHasAuthenticated } = useAppContext();
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
     function validateForm() {
         return (
@@ -37,6 +38,7 @@ export default function Signup() {
     async function handleSubmit(event) {
         event.preventDefault();
         setIsLoading(true);
+        setError("");
         try {
             const newUser = await Auth.signUp({
                 username: fields.email,
@@ -46,6 +48,7 @@ export default function Signup() {
             setNewUser(newUser);
         } catch (e) {
             onError(e);
+            setError("Failed to sign up. Please try again.");
             setIsLoading(false);
         }
     }
@@ -53,6 +56,7 @@ export default function Signup() {
     async function handleConfirmationSubmit(event) {
         event.preventDefault();
         setIsLoading(true);
+        setError("");
         try {
             await Auth.confirmSignUp(fields.email, fields.confirmationCode);
             await Auth.signIn(fields.email, fields.password);
@@ -60,6 +64,7 @@ export default function Signup() {
             history.push("/");
         } catch (e) {
             onError(e);
+            setError("Invalid confirmation code. Please try again.");
             setIsLoading(false);
         }
     }
@@ -76,9 +81,11 @@ export default function Signup() {
                         type="tel"
                         onChange={handleFieldChange}
                         value={fields.confirmationCode}
+                        className={error ? "error-input" : ""}
                     />
                     <Form.Text muted>Please check your email for the code.</Form.Text>
                 </Form.Group>
+                {error && <div className="error-message">{error}</div>}
                 <LoaderButton
                     block
                     size="lg"
@@ -102,6 +109,7 @@ export default function Signup() {
                         type="email"
                         value={fields.email}
                         onChange={handleFieldChange}
+                        className={error && fields.email.length === 0 ? "error-input" : ""}
                     />
                 </Form.Group>
                 <Form.Group controlId="password" size="lg">
@@ -110,6 +118,7 @@ export default function Signup() {
                         type="password"
                         value={fields.password}
                         onChange={handleFieldChange}
+                        className={error && fields.password.length === 0 ? "error-input" : ""}
                     />
                 </Form.Group>
                 <Form.Group controlId="confirmPassword" size="lg">
@@ -118,6 +127,7 @@ export default function Signup() {
                         type="password"
                         onChange={handleFieldChange}
                         value={fields.confirmPassword}
+                        className={error && fields.password !== fields.confirmPassword ? "error-input" : ""}
                     />
                 </Form.Group>
                 <LoaderButton
