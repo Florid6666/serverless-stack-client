@@ -108,4 +108,13 @@
       background: #ccc;
       cursor: not-allowed;
   }
+  .Login {
+    padding: 60px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ff7e5f, #feb47b); /* Scratch card gradient */
+  }
+
 }
