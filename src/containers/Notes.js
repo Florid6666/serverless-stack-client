@@ -16,6 +16,7 @@ export default function Notes() {
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     function loadNote() {
@@ -35,6 +36,7 @@ export default function Notes() {
         setNote(note);
       } catch (e) {
         onError(e);
+        setError("Failed to load the note. Please try again.");
       }
     }
 
@@ -73,6 +75,7 @@ export default function Notes() {
       history.push("/");
     } catch (e) {
       onError(e);
+      setError("Failed to save the note. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -96,6 +99,7 @@ export default function Notes() {
       history.push("/");
     } catch (e) {
       onError(e);
+      setError("Failed to delete the note. Please try again.");
     } finally {
       setIsDeleting(false);
     }
@@ -111,13 +115,14 @@ export default function Notes() {
 
   return (
     <div className="Notes">
-      {note && (
+      {note ? (
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="content">
             <Form.Control
               as="textarea"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              className={error ? "error-input" : ""}
             />
           </Form.Group>
           <Form.Group controlId="file">
@@ -129,12 +134,13 @@ export default function Notes() {
                   rel="noopener noreferrer"
                   href={note.attachmentURL}
                 >
-                  {/* {formatFilename(note.attachment)} */}
+                  {note.attachment}
                 </a>
               </p>
             )}
             <Form.Control onChange={handleFileChange} type="file" />
           </Form.Group>
+          {error && <div className="error-message">{error}</div>}
           <LoaderButton
             block
             size="lg"
@@ -154,8 +160,9 @@ export default function Notes() {
             Delete
           </LoaderButton>
         </Form>
+      ) : (
+        <div className="error-message">{error || "Loading..."}</div>
       )}
     </div>
   );
 }
-
