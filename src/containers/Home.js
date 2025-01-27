@@ -6,6 +6,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 import { API } from "aws-amplify"; // Make sure this is imported
 import "./Home.css";
+
 export default function Home() {
   const [notes, setNotes] = useState([]);
   const { isAuthenticated } = useAppContext();
