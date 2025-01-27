@@ -47,4 +47,90 @@
     transform: scale(1.05);
 }
 
+/* General List Styling */
+.notes-list {
+    margin: 20px auto;
+    max-width: 600px;
+    border-radius: 12px;
+    overflow: hidden; /* Prevent overflow for rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for the container */
+    background: white; /* Neutral background for the list */
+}
+
+/* Create New Note Item */
+.notes-new-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Themed gradient */
+    color: white;
+    border-bottom: 1px solid #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.notes-new-item:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 12px rgba(255, 126, 95, 0.4); /* Enhanced shadow */
+}
+
+.notes-new-text {
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Notes Item */
+.notes-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: white; /* Neutral background */
+    border-bottom: 1px solid #eee; /* Subtle separator */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.notes-item:last-child {
+    border-bottom: none; /* Remove separator for the last item */
+}
+
+.notes-item:hover {
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Scratch card gradient */
+    color: white;
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 12px rgba(255, 126, 95, 0.4); /* Hover shadow */
+}
+
+/* Note Title */
+.notes-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333; /* Dark text for better readability */
+    transition: color 0.3s ease;
+}
+
+.notes-item:hover .notes-title {
+    color: white; /* Change to white on hover */
+}
+
+/* Note Date */
+.notes-date {
+    font-size: 0.85rem;
+    color: #666; /* Muted text for dates */
+    transition: color 0.3s ease;
+}
+
+.notes-item:hover .notes-date {
+    color: #ffe5d4; /* Subtle contrast for muted text on hover */
+}
+
+/* Icon Styling */
+.notes-icon {
+    color: white; /* Icon matches the gradient theme */
+    transition: color 0.3s ease;
+}
+
+
 

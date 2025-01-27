@@ -36,27 +36,28 @@ export default function Home() {
     return (
       <>
         <LinkContainer to="/notes/new">
-          <ListGroup.Item action className="py-3 text-nowrap text-truncate">
-            <BsPencilSquare size={17} />
-            <span className="ml-2 font-weight-bold">Create a new note</span>
+          <ListGroup.Item action className="notes-new-item">
+            <BsPencilSquare size={17} className="notes-icon" />
+            <span className="notes-new-text">Create a new note</span>
           </ListGroup.Item>
         </LinkContainer>
         {notes.map(({ noteId, content, createdAt }) => (
           <LinkContainer key={noteId} to={`/notes/${noteId}`}>
-            <ListGroup.Item action>
-              <span className="font-weight-bold">
+            <ListGroup.Item action className="notes-item">
+              <span className="notes-title">
                 {content.trim().split("\n")[0]}
               </span>
               <br />
-              <span className="text-muted">
+              <span className="notes-date">
                 Created: {new Date(createdAt).toLocaleString()}
               </span>
             </ListGroup.Item>
           </LinkContainer>
         ))}
       </>
-    );    
+    );
   }
+  
 
   function renderLander() {
     return (
