@@ -4,7 +4,7 @@ import { useAppContext } from "../libs/contextLib";
 import { onError } from "../libs/errorLib";
 import { BsPencilSquare } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
-import { API } from "aws-amplify"; // Make sure this is imported
+import { API, Storage } from "aws-amplify";
 import "./Home.css";
 
 export default function Home() {
@@ -19,7 +19,21 @@ export default function Home() {
       }
       try {
         const notes = await loadNotes();
-        setNotes(notes);
+        const notesWithImages = await Promise.all(
+          notes.map(async (note) => {
+            if (note.attachment) {
+              try {
+                note.attachmentURL = await Storage.vault.get(note.attachment);
+              } catch {
+                note.attachmentURL = "/default-placeholder.png"; // Default image on error
+              }
+            } else {
+              note.attachmentURL = "/default-placeholder.png"; // Default image if no attachment
+            }
+            return note;
+          })
+        );
+        setNotes(notesWithImages);
       } catch (e) {
         onError(e);
       }
@@ -42,23 +56,30 @@ export default function Home() {
             <span className="notes-new-text">Create a new note</span>
           </ListGroup.Item>
         </LinkContainer>
-        {notes.map(({ noteId, content, createdAt }) => (
+        {notes.map(({ noteId, content, createdAt, attachmentURL }) => (
           <LinkContainer key={noteId} to={`/notes/${noteId}`}>
-            <ListGroup.Item action className="notes-item">
-              <span className="notes-title">
-                {content.trim().split("\n")[0]}
-              </span>
-              <br />
-              <span className="notes-date">
-                Created: {new Date(createdAt).toLocaleString()}
-              </span>
+            <ListGroup.Item action className="notes-item d-flex align-items-left">
+              <img
+                src={attachmentURL}
+                alt="Note"
+                className="note-thumbnail"
+                onError={(e) => (e.target.src = "/default-placeholder.png")} // Fallback for broken images
+              />
+              <div className="note-content">
+                <span className="notes-title">
+                  {content.trim().split("\n")[0]}
+                </span>
+                <br />
+                <span className="notes-date">
+                  Created: {new Date(createdAt).toLocaleString()}
+                </span>
+              </div>
             </ListGroup.Item>
           </LinkContainer>
         ))}
       </>
     );
   }
-  
 
   function renderLander() {
     return (
@@ -66,10 +87,10 @@ export default function Home() {
         <h1>Scratch</h1>
         <p className="text-muted">A simple note taking app</p>
         <div className="actions">
-        <LinkContainer to="/login">
-          <button className="btn btn-primary btn-lg mt-3">Get Started</button>
-        </LinkContainer>
-      </div>
+          <LinkContainer to="/login">
+            <button className="btn btn-primary btn-lg mt-3">Get Started</button>
+          </LinkContainer>
+        </div>
       </div>
     );
   }

@@ -113,6 +113,10 @@ export default function Notes() {
     file.current = event.target.files[0];
   }
 
+  function isImageFile(url) {
+    return /\.(jpg|jpeg|png|gif|bmp)$/i.test(url);
+  }
+
   return (
     <div className="Notes">
       {note ? (
@@ -128,15 +132,23 @@ export default function Notes() {
           <Form.Group controlId="file">
             <Form.Label>Attachment</Form.Label>
             {note.attachment && (
-              <p>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={note.attachmentURL}
-                >
-                  {note.attachment}
-                </a>
-              </p>
+              <div className="attachment-preview">
+                {isImageFile(note.attachmentURL) ? (
+                  <img
+                    src={note.attachmentURL}
+                    alt="Attachment"
+                    className="attachment-image"
+                  />
+                ) : (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={note.attachmentURL}
+                  >
+                    {note.attachment}
+                  </a>
+                )}
+              </div>
             )}
             <Form.Control onChange={handleFileChange} type="file" />
           </Form.Group>
